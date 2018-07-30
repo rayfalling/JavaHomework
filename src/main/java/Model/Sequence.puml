@@ -1,0 +1,20 @@
+@startuml
+actor 操作员
+Activate 操作员
+操作员 -> GUI: 操作
+Activate GUI
+
+GUI -> GUI: 验证输入有效性
+
+GUI -> HIS.Controller: 传递参数到控制层
+Activate HIS.Controller
+
+HIS.Controller -> 文件: 写文件，持久化储存
+
+HIS.Controller -> GUI: 返回操作结果
+deactivate HIS.Controller
+GUI-> 操作员: 显示操作结果
+deactivate GUI
+deactivate 操作员
+
+@enduml

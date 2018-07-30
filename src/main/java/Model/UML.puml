@@ -1,0 +1,124 @@
+@startuml
+
+title 医疗系统
+skinparam classAttributeIconSize 0
+
+class Hospital {
+- code: String
+- name: String
+- level: HospitalLevel
+}
+
+enum HospitalLevel {
+    OneClass
+    SecondClass
+    ThirdClass
+    Community
+}
+
+enum sex {
+    male
+    female
+}
+
+class Person {
+- Id: String
+- typeOfCertificate: String
+- certificateId: String
+- name: String
+- sex: sex
+- nationality: String
+- Birthday: Date
+- personnelVisit: PersonnelVisit[]
+}
+
+class PersonnelVisit{
+- Id: String
+- clinicNumnber: String
+- medicalCategory: String
+- admissionDate: Date
+- leaveDate: Date
+- hospitalCode: String
+- hospitalLevel: HospitalLevel
+- leaveReason: String
+}
+
+class MedicineInfo {
+- drugCode: String
+- name: String
+- priceLimit: double
+- drugDosageUnit: String
+- chargeItemLevel: ChargeItemLevel
+- hospitalLevel: HospitalLevel
+}
+
+enum ChargeItemLevel {
+    ClassA,
+    ClassB,
+    ClassC
+}
+
+class Prescription{
+- clinicNumber: String
+- code: String
+- name: String
+- itemPrice: double
+- count: double
+- totalPrice: double
+}
+
+class ReimburseServer{
+- person: Person
+- ReimburseServer()
++ preSettleItem( information: PersonnelVisitInformation, details: ArrayList<PrescriptionDetails>): PreSettleResult
+- preSettleMedical(details: PrescriptionDetails)
+- preSettleTreatment(details: PrescriptionDetails)
+- preSettleService(details: PrescriptionDetails)
++ settle(results: ArrayList<PreSettleResult>): SettleResult
+}
+
+class TreatmentInfo{
+- Code: String
+- Name: String
+- chargeItemLevel: ChargeItemLevel
+- hospitalLevel: HospitalLevel
+}
+
+class PreSettleResult{
+- totalExpenses: double
+- reimbursementAmount: double
+- selfFundedAmount: double
+- startStandardAmount: double
+- firstRangeAmount: double
+- secondRangeAmount: double
+- thirdRangeAmount: double
+- bClassSelfFeeAmount: double
+- specialSelfFeeAmount: double
+}
+
+class SettleResult{
+- unitName: String
+- unitCode: String
+- name: String
+- totalExpenses: double
+- medicalExpenses: double
+- treatmentExpenses:double
+- serviceExpenses: double
+- selfFundedAmount: double
+- startStandardAmount: double
+}
+
+ReimburseServer ..> PreSettleResult
+ReimburseServer ..> SettleResult
+ReimburseServer ..> Prescription
+ReimburseServer ..> TreatmentInfo
+ReimburseServer ..> Person
+PersonnelVisit --> Hospital: hospitalCode
+PersonnelVisit o-- HospitalLevel : hospitalLevel
+Hospital o-- HospitalLevel : level
+MedicineInfo o-- HospitalLevel : chargeItemLevel
+MedicineInfo o-- ChargeItemLevel : hospitalLevel
+Person o-- sex : level
+TreatmentInfo o-- HospitalLevel : chargeItemLevel
+
+@enduml

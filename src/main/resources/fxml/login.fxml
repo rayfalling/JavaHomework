@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Login">
+    <JFXTextField fx:id="username" layoutX="60.0" layoutY="73.0" promptText="Username" AnchorPane.bottomAnchor="185.0"
+                  AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="73.0"/>
+    <JFXTextField fx:id="password" layoutX="60.0" layoutY="144.0" promptText="Password" AnchorPane.bottomAnchor="114.0"
+                  AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="144.0"/>
+    <JFXButton fx:id="login" buttonType="RAISED" layoutX="176.0" layoutY="209.0" mnemonicParsing="false"
+               onAction="#doLogin" prefHeight="30.0" prefWidth="98.0" ripplerFill="#4053b2" text="登录"
+               AnchorPane.bottomAnchor="49.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="176.0"
+               AnchorPane.topAnchor="209.0"/>
+</AnchorPane>

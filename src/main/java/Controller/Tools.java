@@ -1,9 +1,18 @@
 package Controller;
 
 import Model.Model;
+import Model.SettleResult;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +24,9 @@ import java.util.List;
  * @version 0.2
  */
 public class Tools {
+    public Tools() {
+    }
+
     /**
      * 属性过滤&参数化查询
      * 传入查询字符形式"name:testuser"
@@ -46,6 +58,14 @@ public class Tools {
         Field.setAccessible(field, false);
         for (boolean tb : b) if (!tb) return false;
         return true;
+    }
+
+    public List<Model> getModelArrayList() {
+        return modelArrayList;
+    }
+
+    public void setModelArrayList(List<Model> modelArrayList) {
+        this.modelArrayList = modelArrayList;
     }
 
     private List<Model> modelArrayList = new ArrayList<>();
@@ -118,4 +138,135 @@ public class Tools {
         });
         return temp;
     }
+
+    /**
+     * 打印结算报表,使用poi库操作xls文件表格每一项
+     *
+     * @param Id 用户索引
+     */
+    public void printSettleResultToExcel(String Id) throws IOException {
+        SettleResult result = new SettleResultManager().getFromFile().stream().filter(settleResult -> settleResult.getId().equals(Id)).findFirst().get();
+
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet("结算清单");
+
+        HSSFRow titleRow = sheet.createRow(0);
+        HSSFCell titleRowCell = titleRow.createCell(0);
+
+        HSSFCellStyle cellStyle = workbook.createCellStyle();
+        HSSFFont fontStyle = workbook.createFont();
+        fontStyle.setBold(true);
+        fontStyle.setFontHeightInPoints((short) 18);
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        cellStyle.setFont(fontStyle);
+        titleRow.getCell(0).setCellStyle(cellStyle);
+
+        HSSFCellStyle style = workbook.createCellStyle();
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
+
+        //表头
+        titleRowCell.setCellValue("报销结算清单");
+        sheet.addMergedRegion(new CellRangeAddress(0, 3, 0, 10));
+        HSSFRow settleDataRow = sheet.createRow(4);
+        sheet.addMergedRegion(new CellRangeAddress(4, 4, 0, 4));
+        settleDataRow.createCell(5).setCellValue("结算日期");
+
+        //录入结算日期
+        settleDataRow.createCell(6).setCellValue(result.getSettleDate());
+        sheet.addMergedRegion(new CellRangeAddress(4, 4, 6, 10));
+
+        HSSFRow baseRow = sheet.createRow(5);
+        baseRow.createCell(0).setCellValue("姓名");
+        baseRow.createCell(1).setCellValue(result.getName());
+        sheet.addMergedRegion(new CellRangeAddress(5, 5, 1, 2));
+        baseRow.createCell(3).setCellValue("个人编号");
+        baseRow.createCell(4).setCellValue(result.getId());
+        sheet.addMergedRegion(new CellRangeAddress(5, 5, 4, 5));
+        baseRow.createCell(6).setCellValue("人员类别");
+        baseRow.createCell(7).setCellValue(result.getCategory());
+        sheet.addMergedRegion(new CellRangeAddress(5, 5, 7, 10));
+
+        /*就诊医院和诊疗时段*/
+        HSSFRow medicalRow = sheet.createRow(6);
+        medicalRow.createCell(0).setCellValue("就诊医院");
+        medicalRow.getCell(0).setCellStyle(style);
+        sheet.addMergedRegion(new CellRangeAddress(6, 6 + result.getInHospitalTime() - 1, 0, 0));
+        medicalRow.createCell(6).setCellValue("就诊时段");
+        medicalRow.getCell(6).setCellStyle(style);
+        sheet.addMergedRegion(new CellRangeAddress(6, 6 + result.getInHospitalTime() - 1, 6, 6));
+        medicalRow.createCell(7).setCellValue(result.getMedicalTimeRange().get(0));
+        sheet.addMergedRegion(new CellRangeAddress(6, 6, 1, 5));
+        for (int i = 1; i < result.getInHospitalTime(); i++) {
+            HSSFRow row = sheet.createRow(6 + i);
+            row.createCell(7).setCellValue(result.getMedicalTimeRange().get(i));
+            sheet.addMergedRegion(new CellRangeAddress(6 + i, 6 + i, 5, 5));
+        }
+
+        int m = 5 + result.getInHospitalTime() + 1;
+
+        sheet.createRow(m).createCell(0).setCellValue("结算明细：");
+        sheet.addMergedRegion(new CellRangeAddress(m, m, 0, 10));
+        HSSFFont font = workbook.createFont();
+        font.setFontHeightInPoints((short) 14);
+        font.setBold(true);
+        HSSFCellStyle hssfCellStyle = workbook.createCellStyle();
+        hssfCellStyle.setFont(font);
+        sheet.getRow(m).getCell(0).setCellStyle(hssfCellStyle);
+
+
+        sheet.createRow(m + 1).createCell(0).setCellValue("起付标准：");
+        sheet.addMergedRegion(new CellRangeAddress(m + 1, m + 1, 0, 2));
+        sheet.createRow(m + 2).createCell(0).setCellValue("100元");
+        sheet.getRow(m + 2).getCell(0).setCellStyle(style);
+        sheet.addMergedRegion(new CellRangeAddress(m + 2, m + 2, 0, 2));
+
+        int e = m + 3 + result.getbClassItem().size() + result.getcClassItem().size() + 1;
+
+        sheet.createRow(m + 3).createCell(0).setCellValue("自费项目：");
+        sheet.addMergedRegion(new CellRangeAddress(m + 3, m + 3, 0, 2));
+        if (result.getbClassItem().isEmpty()) {
+            sheet.getRow(m + 3).getCell(0).setCellValue("自费项目：无");
+        }
+        for (int i = 0; i < result.getcClassItem().size(); i++) {
+            sheet.createRow(m + 4 + i).createCell(0).setCellValue(result.getcClassItem().get(i));
+            sheet.addMergedRegion(new CellRangeAddress(m + 4 + i, m + 4 + i, 0, 2));
+            sheet.getRow(m + 4 + i).getCell(0).setCellStyle(style);
+        }
+
+        sheet.createRow(m + 3 + result.getcClassItem().size() + 1).createCell(0).setCellValue("乙类项目：");
+        sheet.addMergedRegion(new CellRangeAddress(m + 3 + result.getcClassItem().size() + 1, m + 3 + result.getcClassItem().size() + 1, 0, 2));
+        if (result.getbClassItem().isEmpty()) {
+            sheet.getRow(m + 3 + result.getcClassItem().size() + 1).getCell(0).setCellValue("乙类项目：无");
+        }
+        for (int i = 0; i < result.getcClassItem().size(); i++) {
+            sheet.createRow(m + 3 + result.getcClassItem().size() + 1 + i + 1).createCell(0).setCellValue(result.getbClassItem().get(i));
+            sheet.addMergedRegion(new CellRangeAddress(m + 3 + result.getcClassItem().size() + 1 + i + 1, m + 3 + result.getcClassItem().size() + 1 + i + 1, 0, 2));
+            sheet.getRow(m + 3 + result.getcClassItem().size() + 1 + i + 1).getCell(0).setCellStyle(style);
+        }
+        sheet.addMergedRegion(new CellRangeAddress(m + 1, e, 3, 10));
+        sheet.createRow(e + 1).createCell(0).setCellValue("个人自费费用：");
+        sheet.addMergedRegion(new CellRangeAddress(e + 1, e + 1, 0, 2));
+        sheet.createRow(e + 2).createCell(0).setCellValue("中心报销金额：");
+        sheet.addMergedRegion(new CellRangeAddress(e + 2, e + 2, 0, 2));
+        sheet.createRow(e + 3).createCell(0).setCellValue("年度花费总额：");
+        sheet.getRow(e + 1).createCell(3).setCellValue(result.getSelfFundedAmount() + " 元");
+        sheet.getRow(e + 2).createCell(3).setCellValue(result.getMedicalExpenses() + " 元");
+        sheet.getRow(e + 3).createCell(3).setCellValue(result.getTotalExpenses() + "元");
+        sheet.addMergedRegion(new CellRangeAddress(e + 1, e + 1, 3, 10));
+        sheet.addMergedRegion(new CellRangeAddress(e + 2, e + 2, 3, 10));
+        sheet.addMergedRegion(new CellRangeAddress(e + 3, e + 3, 3, 10));
+        try {
+            File file = new File(Class.class.getClass().getResource("/").toURI().getPath().replaceFirst("/", "") + "/报销结算打印单" + result.getId() + ".xls");
+            FileOutputStream outputStream = new FileOutputStream(file);
+            workbook.write(outputStream);
+            outputStream.flush();
+            outputStream.close();
+        } catch (IOException | URISyntaxException e1) {
+            e1.printStackTrace();
+        }
+
+    }
+
 }

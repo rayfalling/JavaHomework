@@ -1,6 +1,6 @@
 package Model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 
 public class Person extends Model {
@@ -32,11 +32,7 @@ public class Person extends Model {
     /**
      * 出生日期
      */
-    private LocalDateTime Birthday;
-    /**
-     * 就诊记录
-     */
-    private PersonnelVisit[] personnelVisit;
+    private LocalDate Birthday;
 
     public Person(String id, String typeOfCertificate, String certificateId, String name, sex sex) {
         Id = id;
@@ -106,18 +102,18 @@ public class Person extends Model {
         this.nationality = nationality;
     }
 
-    public LocalDateTime getBirthday() {
+    public LocalDate getBirthday() {
         return Birthday;
     }
 
-    public void setBirthday(LocalDateTime birthday) {
+    public void setBirthday(LocalDate birthday) {
         Birthday = birthday;
     }
 
-    public Person() {
+    public Person(String id, String typeOfCertificate, String certificateId, String name, boolean b) {
     }
 
-    public Person(String id, String typeOfCertificate, String certificateId, String name, sex sex, String nationality, LocalDateTime birthday) {
+    public Person(String id, String typeOfCertificate, String certificateId, String name, sex sex, String nationality, LocalDate birthday) {
         Id = id;
         this.typeOfCertificate = typeOfCertificate;
         this.certificateId = certificateId;
@@ -127,11 +123,8 @@ public class Person extends Model {
         Birthday = birthday;
     }
 
-    public PersonnelVisit[] getPersonnelVisit() {
-        return personnelVisit;
-    }
-
-    public void setPersonnelVisit(PersonnelVisit[] personnelVisit) {
-        this.personnelVisit = personnelVisit;
+    public Person() {
     }
 }
+
+

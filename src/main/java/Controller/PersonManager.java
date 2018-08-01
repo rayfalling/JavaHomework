@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Person;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 
 import java.util.ArrayList;
@@ -18,9 +19,9 @@ import static Controller.FileIO.ReadFile;
 public class PersonManager {
     public List<Person> getFromFile() {
         String str = ReadFile("data/人员信息.txt");
-        if (str == null)
+        if (str == null|| str.equals(""))
             return new ArrayList<>();
-        else return JSONArray.parseArray(str, Person.class);
+        else return JSON.parseArray(str, Person.class);
     }
 
     public boolean writeToFile(ArrayList<Person> personArrayList) {

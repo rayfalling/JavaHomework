@@ -1,7 +1,7 @@
 package Model;
 
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class PersonnelVisit {
     /**
@@ -14,16 +14,20 @@ public class PersonnelVisit {
     private String clinicNumber;
     /**
      * 医疗类别
+     * 11=在职职工
+     * 21=退休人员
+     * 40=享受最低保障的在职人员
+     * 41=享受最低保障的退休人员
      */
     private String category;
     /**
      * 入院日期
      */
-    private Date admissionDate;
+    private LocalDate admissionDate;
     /**
      * 出院日期
      */
-    private Date leaveDate;
+    private LocalDate leaveDate;
     /**
      * 医院代码
      */
@@ -36,6 +40,17 @@ public class PersonnelVisit {
      * 出院原因
      */
     private String leaveReason;
+
+    public PersonnelVisit(String id, String clinicNumber, String category, LocalDate admissionDate, LocalDate leaveDate, String code, HospitalLevel hospitalLevel, String leaveReason) {
+        Id = id;
+        this.clinicNumber = clinicNumber;
+        this.category = category;
+        this.admissionDate = admissionDate;
+        this.leaveDate = leaveDate;
+        this.code = code;
+        this.hospitalLevel = hospitalLevel;
+        this.leaveReason = leaveReason;
+    }
 
     public String getId() {
         return Id;
@@ -61,19 +76,19 @@ public class PersonnelVisit {
         this.category = category;
     }
 
-    public Date getAdmissionDate() {
+    public LocalDate getAdmissionDate() {
         return admissionDate;
     }
 
-    public void setAdmissionDate(Date admissionDate) {
+    public void setAdmissionDate(LocalDate admissionDate) {
         this.admissionDate = admissionDate;
     }
 
-    public Date getLeaveDate() {
+    public LocalDate getLeaveDate() {
         return leaveDate;
     }
 
-    public void setLeaveDate(Date leaveDate) {
+    public void setLeaveDate(LocalDate leaveDate) {
         this.leaveDate = leaveDate;
     }
 
@@ -104,7 +119,7 @@ public class PersonnelVisit {
     public PersonnelVisit() {
     }
 
-    public PersonnelVisit(String id, String clinicNumber, String category, Date admissionDate, String code, HospitalLevel hospitalLevel) {
+    public PersonnelVisit(String id, String clinicNumber, String category, LocalDate admissionDate, String code, HospitalLevel hospitalLevel) {
         Id = id;
         this.clinicNumber = clinicNumber;
         this.category = category;

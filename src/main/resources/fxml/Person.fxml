@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXRippler?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeTableColumn?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.PersonPage">
+    <HBox alignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <JFXRippler fx:id="back" maskType="CIRCLE" onMouseClicked="#BackToMain" position="BACK"
+                    styleClass="icons-rippler" HBox.hgrow="NEVER">
+            <StackPane style="-fx-padding: 10;">
+                <FontAwesomeIconView glyphName="ARROW_LEFT" size="2em" styleClass="icon"/>
+            </StackPane>
+        </JFXRippler>
+        <Label text="病人管理" HBox.hgrow="NEVER"/>
+        <Label fx:id="editableTreeTableViewCount" HBox.hgrow="NEVER">
+            <opaqueInsets>
+                <Insets/>
+            </opaqueInsets>
+        </Label>
+        <StackPane maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS"/>
+        <JFXRippler fx:id="add" maskType="CIRCLE" onMouseClicked="#AddNew" styleClass="icons-rippler"
+                    HBox.hgrow="NEVER">
+            <StackPane style="-fx-padding: 10;">
+                <FontAwesomeIconView glyphName="PLUS" size="2em" styleClass="icon"/>
+            </StackPane>
+        </JFXRippler>
+        <JFXRippler fx:id="save" maskType="CIRCLE" onMouseClicked="#Save" styleClass="icons-rippler" HBox.hgrow="NEVER">
+            <StackPane style="-fx-padding: 10;">
+                <FontAwesomeIconView glyphName="SAVE" size="2em" styleClass="icon"/>
+            </StackPane>
+        </JFXRippler>
+        <StackPane HBox.hgrow="SOMETIMES">
+            <StackPane maxWidth="250.0" StackPane.alignment="CENTER_RIGHT">
+                <JFXTextField fx:id="searchField" promptText="搜索"/>
+            </StackPane>
+        </StackPane>
+    </HBox>
+    <JFXTreeTableView fx:id="editableTreeTableView" styleClass="tree-table-view" AnchorPane.bottomAnchor="0.0"
+                      AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+        <columns>
+            <JFXTreeTableColumn fx:id="Id" minWidth="-Infinity" style="-fx-alignment: center" text="Id"/>
+            <JFXTreeTableColumn fx:id="Name" minWidth="-Infinity" style="-fx-alignment: center" text="姓名"/>
+            <JFXTreeTableColumn fx:id="typeOfCertificate" minWidth="-Infinity" style="-fx-alignment: center"
+                                text="证件类型"/>
+            <JFXTreeTableColumn fx:id="certificateId" minWidth="-Infinity" style="-fx-alignment: center" text="证件编号"/>
+            <JFXTreeTableColumn fx:id="sex" minWidth="-Infinity" style="-fx-alignment: center" text="性别"/>
+            <JFXTreeTableColumn fx:id="nationality" minWidth="-Infinity" style="-fx-alignment: center" text="民族"/>
+            <JFXTreeTableColumn fx:id="Birthday" minWidth="-Infinity" style="-fx-alignment: center" text="生日"/>
+        </columns>
+        <contextMenu>
+            <ContextMenu>
+                <items>
+                    <MenuItem onAction="#ShowPersonnelVisits" text="查看就诊记录"/>
+                    <MenuItem onAction="#DoSettle" text="报销"/>
+                    <SeparatorMenuItem mnemonicParsing="false"/>
+                    <MenuItem onAction="#AddNew" text="添加"/>
+                    <MenuItem onAction="#Delete" text="删除"/>
+                    <MenuItem onAction="#Save" text="保存"/>
+                </items>
+            </ContextMenu>
+        </contextMenu>
+    </JFXTreeTableView>
+</AnchorPane>

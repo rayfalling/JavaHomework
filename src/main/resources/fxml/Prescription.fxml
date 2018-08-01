@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="View.PrescriptionPage">
+    <HBox alignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <JFXRippler fx:id="back" maskType="CIRCLE" onMouseClicked="#BackToMain" position="BACK"
+                    styleClass="icons-rippler" HBox.hgrow="NEVER">
+            <StackPane style="-fx-padding: 10;">
+                <FontAwesomeIconView glyphName="ARROW_LEFT" size="2em" styleClass="icon"/>
+            </StackPane>
+        </JFXRippler>
+        <Label text="处方明细维护" HBox.hgrow="NEVER"/>
+        <Label fx:id="editableTreeTableViewCount" HBox.hgrow="NEVER">
+            <opaqueInsets>
+                <Insets/>
+            </opaqueInsets>
+        </Label>
+        <StackPane maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS"/>
+        <JFXRippler fx:id="add" maskType="CIRCLE" onMouseClicked="#AddNew" styleClass="icons-rippler"
+                    HBox.hgrow="NEVER">
+            <StackPane style="-fx-padding: 10;">
+                <FontAwesomeIconView glyphName="PLUS" size="2em" styleClass="icon"/>
+            </StackPane>
+        </JFXRippler>
+        <JFXRippler fx:id="save" maskType="CIRCLE" onMouseClicked="#Save" styleClass="icons-rippler" HBox.hgrow="NEVER">
+            <StackPane style="-fx-padding: 10;">
+                <FontAwesomeIconView glyphName="SAVE" size="2em" styleClass="icon"/>
+            </StackPane>
+        </JFXRippler>
+        <StackPane HBox.hgrow="SOMETIMES">
+            <StackPane maxWidth="250.0" StackPane.alignment="CENTER_RIGHT">
+                <JFXTextField fx:id="searchField" promptText="搜索"/>
+            </StackPane>
+        </StackPane>
+    </HBox>
+    <JFXTreeTableView styleClass="tree-table-view" fx:id="editableTreeTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                      AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+        <columns>
+            <JFXTreeTableColumn fx:id="Id" minWidth="-Infinity" text="Id" style="-fx-alignment: center"/>
+            <JFXTreeTableColumn fx:id="clinicNumber" minWidth="-Infinity" text="门诊号" style="-fx-alignment: center"/>
+            <JFXTreeTableColumn fx:id="code" minWidth="-Infinity" text="药品编号" style="-fx-alignment: center"/>
+            <JFXTreeTableColumn fx:id="itemPrice" minWidth="-Infinity" text="单价" style="-fx-alignment: center"/>
+            <JFXTreeTableColumn fx:id="count" minWidth="-Infinity" text="数量" style="-fx-alignment: center"/>
+            <JFXTreeTableColumn fx:id="totalPrice" editable="false" minWidth="-Infinity" text="总金额" style="-fx-alignment: center"/>
+        </columns>
+        <contextMenu>
+            <ContextMenu>
+                <items>
+                    <MenuItem onAction="#AddNew" text="添加"/>
+                    <MenuItem onAction="#Delete" text="删除"/>
+                    <MenuItem onAction="#Save" text="保存"/>
+                </items>
+            </ContextMenu>
+        </contextMenu>
+    </JFXTreeTableView>
+</AnchorPane>

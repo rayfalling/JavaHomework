@@ -34,12 +34,24 @@ public class FileIO {
 
     /**
      * 获取输出流
+     * 追加模式
+     *
+     * @param path 文件路径
+     * @return 文件输出流
+     */
+    private static FileOutputStream getAppendOutputStream(String path) throws FileNotFoundException {
+        return new FileOutputStream(Objects.requireNonNull(getFileHandle(path).canRead() ? getFileHandle(path) : null), true);
+    }
+
+    /**
+     * 获取输出流
+     * 覆写模式
      *
      * @param path 文件路径
      * @return 文件输出流
      */
     private static FileOutputStream getOutputStream(String path) throws FileNotFoundException {
-        return new FileOutputStream(Objects.requireNonNull(getFileHandle(path).canRead() ? getFileHandle(path) : null), true);
+        return new FileOutputStream(Objects.requireNonNull(getFileHandle(path).canRead() ? getFileHandle(path) : null));
     }
 
     public static String getSuffix(String path) {
@@ -82,17 +94,20 @@ public class FileIO {
             if (!getFileHandle(path).exists())
                 if (CreatePreDirectory(path) && !getFileHandle(path).createNewFile())
                     return false;
-            FileOutputStream fos = getOutputStream(path);
             byte[] bytes;
             FileInputStream fis = getInputStream(path);
             int length = fis.available();
             fis.close();
+            FileOutputStream fos;
             if (overwrite) {
-                bytes = new byte[length > buffer.getBytes().length ? length : buffer.getBytes().length];
+                fos = getOutputStream(path);
+                bytes = new byte[buffer.getBytes().length];
                 System.arraycopy(buffer.getBytes(), 0, bytes, 0, buffer.getBytes().length);
-                fos.write(bytes, 0, bytes.length);
-            } else
-                fos.write(buffer.getBytes(), length + 1, buffer.getBytes().length);
+                fos.write(bytes);
+            } else {
+                fos = getAppendOutputStream(path);
+                fos.write(buffer.getBytes());
+            }
             fos.flush();
             fos.close();
             return true;

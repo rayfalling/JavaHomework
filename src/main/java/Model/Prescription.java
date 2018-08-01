@@ -16,22 +16,22 @@ public class Prescription extends Model {
     /**
      * 药品编号
      */
-    private String code[];
+    private String code;
     /**
      * 单价
      */
-    private double itemPrice[];
+    private double itemPrice;
     /**
      * 数量
      */
-    private double count[];
+    private double count;
 
     /**
      * 总金额
      */
     private double totalPrice;
 
-    public Prescription(String id, String clinicNumber, String[] code, double[] itemPrice, double[] count, double totalPrice) {
+    public Prescription(String id, String clinicNumber, String code, double itemPrice, double count, double totalPrice) {
         Id = id;
         this.clinicNumber = clinicNumber;
         this.code = code;
@@ -61,27 +61,27 @@ public class Prescription extends Model {
         this.clinicNumber = clinicNumber;
     }
 
-    public String[] getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(String[] code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
-    public double[] getItemPrice() {
+    public double getItemPrice() {
         return itemPrice;
     }
 
-    public void setItemPrice(double[] itemPrice) {
+    public void setItemPrice(double itemPrice) {
         this.itemPrice = itemPrice;
     }
 
-    public double[] getCount() {
+    public double getCount() {
         return count;
     }
 
-    public void setCount(double[] count) {
+    public void setCount(double count) {
         this.count = count;
     }
 

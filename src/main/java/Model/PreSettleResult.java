@@ -9,56 +9,61 @@ package Model;
 public class PreSettleResult extends Model {
     /**
      * 索引
+     * 关联用户Id
      */
     private String Id;
     /**
+     * 门诊号
+     */
+    private String clinicNumber;
+    /**
      * 费用总额
      */
-    private double totalExpensesl;
+    private double totalExpenses;
     /**
      * 报销金额
      */
-    private double reimbursementAmountl;
+    private double reimbursementAmount;
     /**
      * 自费金额
      */
-    private double selfFundedAmountl;
+    private double selfFundedAmount;
     /**
      * 起付标准
      */
-    private double startStandardAmountl;
+    private double startStandardAmount;
     /**
      * 第一段自费
      */
-    private double firstRangeAmountl;
+    private double firstRangeAmount;
     /**
      * 第二段自费
      */
-    private double secondRangeAmountl;
+    private double secondRangeAmount;
     /**
      * 第三段自费
      */
     private double thirdRangeAmount;
     /**
-     * 乙类自费金额
+     * 年度总计报销
      */
-    private double bClassSelfFeeAmount;
-    /**
-     * 特检特治自费金额
-     */
-    private double specialSelfFeeAmount;
+    private double yearTotalReimbursementAmount;
 
-    public PreSettleResult(String id, double totalExpensesl, double reimbursementAmountl, double selfFundedAmountl, double startStandardAmountl, double firstRangeAmountl, double secondRangeAmountl, double thirdRangeAmount, double bClassSelfFeeAmount, double specialSelfFeeAmount) {
+    public PreSettleResult(String id, String clinicNumber, double totalExpenses, double reimbursementAmount, double selfFundedAmount, double startStandardAmount, double firstRangeAmount, double secondRangeAmount, double thirdRangeAmount, double yearTotalReimbursementAmount) {
         Id = id;
-        this.totalExpensesl = totalExpensesl;
-        this.reimbursementAmountl = reimbursementAmountl;
-        this.selfFundedAmountl = selfFundedAmountl;
-        this.startStandardAmountl = startStandardAmountl;
-        this.firstRangeAmountl = firstRangeAmountl;
-        this.secondRangeAmountl = secondRangeAmountl;
+        this.clinicNumber = clinicNumber;
+        this.totalExpenses = totalExpenses;
+        this.reimbursementAmount = reimbursementAmount;
+        this.selfFundedAmount = selfFundedAmount;
+        this.startStandardAmount = startStandardAmount;
+        this.firstRangeAmount = firstRangeAmount;
+        this.secondRangeAmount = secondRangeAmount;
         this.thirdRangeAmount = thirdRangeAmount;
-        this.bClassSelfFeeAmount = bClassSelfFeeAmount;
-        this.specialSelfFeeAmount = specialSelfFeeAmount;
+        this.yearTotalReimbursementAmount = yearTotalReimbursementAmount;
+    }
+
+    public PreSettleResult() {
+
     }
 
     @Override
@@ -71,52 +76,60 @@ public class PreSettleResult extends Model {
         Id = id;
     }
 
-    public double getTotalExpensesl() {
-        return totalExpensesl;
+    public String getClinicNumber() {
+        return clinicNumber;
     }
 
-    public void setTotalExpensesl(double totalExpensesl) {
-        this.totalExpensesl = totalExpensesl;
+    public void setClinicNumber(String clinicNumber) {
+        this.clinicNumber = clinicNumber;
     }
 
-    public double getReimbursementAmountl() {
-        return reimbursementAmountl;
+    public double getTotalExpenses() {
+        return totalExpenses;
     }
 
-    public void setReimbursementAmountl(double reimbursementAmountl) {
-        this.reimbursementAmountl = reimbursementAmountl;
+    public void setTotalExpenses(double totalExpenses) {
+        this.totalExpenses = totalExpenses;
     }
 
-    public double getSelfFundedAmountl() {
-        return selfFundedAmountl;
+    public double getReimbursementAmount() {
+        return reimbursementAmount;
     }
 
-    public void setSelfFundedAmountl(double selfFundedAmountl) {
-        this.selfFundedAmountl = selfFundedAmountl;
+    public void setReimbursementAmount(double reimbursementAmount) {
+        this.reimbursementAmount = reimbursementAmount;
     }
 
-    public double getStartStandardAmountl() {
-        return startStandardAmountl;
+    public double getSelfFundedAmount() {
+        return selfFundedAmount;
     }
 
-    public void setStartStandardAmountl(double startStandardAmountl) {
-        this.startStandardAmountl = startStandardAmountl;
+    public void setSelfFundedAmount(double selfFundedAmount) {
+        this.selfFundedAmount = selfFundedAmount;
     }
 
-    public double getFirstRangeAmountl() {
-        return firstRangeAmountl;
+    public double getStartStandardAmount() {
+        return startStandardAmount;
     }
 
-    public void setFirstRangeAmountl(double firstRangeAmountl) {
-        this.firstRangeAmountl = firstRangeAmountl;
+    public void setStartStandardAmount(double startStandardAmount) {
+        this.startStandardAmount = startStandardAmount;
     }
 
-    public double getSecondRangeAmountl() {
-        return secondRangeAmountl;
+    public double getFirstRangeAmount() {
+        return firstRangeAmount;
     }
 
-    public void setSecondRangeAmountl(double secondRangeAmountl) {
-        this.secondRangeAmountl = secondRangeAmountl;
+    public void setFirstRangeAmount(double firstRangeAmount) {
+        this.firstRangeAmount = firstRangeAmount;
+    }
+
+    public double getSecondRangeAmount() {
+        return secondRangeAmount;
+    }
+
+    public void setSecondRangeAmount(double secondRangeAmount) {
+        this.secondRangeAmount = secondRangeAmount;
     }
 
     public double getThirdRangeAmount() {
@@ -127,19 +140,13 @@ public class PreSettleResult extends Model {
         this.thirdRangeAmount = thirdRangeAmount;
     }
 
-    public double getbClassSelfFeeAmount() {
-        return bClassSelfFeeAmount;
+    public double getYearTotalReimbursementAmount() {
+        return yearTotalReimbursementAmount;
     }
 
-    public void setbClassSelfFeeAmount(double bClassSelfFeeAmount) {
-        this.bClassSelfFeeAmount = bClassSelfFeeAmount;
-    }
-
-    public double getSpecialSelfFeeAmount() {
-        return specialSelfFeeAmount;
-    }
-
-    public void setSpecialSelfFeeAmount(double specialSelfFeeAmount) {
-        this.specialSelfFeeAmount = specialSelfFeeAmount;
+    public void setYearTotalReimbursementAmount(double yearTotalReimbursementAmount) {
+        this.yearTotalReimbursementAmount = yearTotalReimbursementAmount;
     }
 }
+
+

@@ -2,6 +2,8 @@ package Controller;
 
 import Model.Model;
 import Model.SettleResult;
+import Model.ChargeItemLevel;
+import Model.HospitalLevel;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
@@ -141,6 +143,8 @@ public class Tools {
 
     /**
      * 打印结算报表,使用poi库操作xls文件表格每一项
+     * 出现了一些问题
+     * 暂时不使用
      *
      * @param Id 用户索引
      */
@@ -196,12 +200,16 @@ public class Tools {
         medicalRow.createCell(6).setCellValue("就诊时段");
         medicalRow.getCell(6).setCellStyle(style);
         sheet.addMergedRegion(new CellRangeAddress(6, 6 + result.getInHospitalTime() - 1, 6, 6));
-        medicalRow.createCell(7).setCellValue(result.getMedicalTimeRange().get(0));
+        medicalRow.createCell(1).setCellValue(result.getMedicalTimeRange().get(0));
         sheet.addMergedRegion(new CellRangeAddress(6, 6, 1, 5));
+        medicalRow.createCell(7).setCellValue(result.getMedicalTimeRange().get(0));
+        sheet.addMergedRegion(new CellRangeAddress(6, 6, 7, 10));
         for (int i = 1; i < result.getInHospitalTime(); i++) {
             HSSFRow row = sheet.createRow(6 + i);
+            row.createCell(1).setCellValue(result.getMedicalTimeRange().get(i));
+            sheet.addMergedRegion(new CellRangeAddress(6 + i, 6 + i, 1, 5));
             row.createCell(7).setCellValue(result.getMedicalTimeRange().get(i));
-            sheet.addMergedRegion(new CellRangeAddress(6 + i, 6 + i, 5, 5));
+            sheet.addMergedRegion(new CellRangeAddress(6 + i, 6 + i, 7, 10));
         }
 
         int m = 5 + result.getInHospitalTime() + 1;
@@ -266,7 +274,74 @@ public class Tools {
         } catch (IOException | URISyntaxException e1) {
             e1.printStackTrace();
         }
-
     }
 
+    /**
+     * 枚举类{@link HospitalLevel}转字符串
+     * 无匹配默认返回""
+     */
+    public static String ConvertEnumHospitalLevelToString(HospitalLevel hospitalLevel) {
+        switch (hospitalLevel) {
+            case OneClass:
+                return "一类";
+            case SecondClass:
+                return "二类";
+            case ThirdClass:
+                return "三类";
+            case Community:
+                return "社区";
+        }
+        return "";
+    }
+
+    /**
+     * 字符串转枚举类{@link HospitalLevel}
+     * 无匹配默认返回社区级别
+     */
+    public static HospitalLevel ConvertStringToEnumHospitalLevel(String hospitalLevel) {
+        switch (hospitalLevel) {
+            case "一类":
+                return HospitalLevel.OneClass;
+            case "二类":
+                return HospitalLevel.SecondClass;
+            case "三类":
+                return HospitalLevel.ThirdClass;
+            case "社区":
+                return HospitalLevel.Community;
+        }
+        return HospitalLevel.Community;
+    }
+
+    /**
+     * 枚举类{@link ChargeItemLevel}转字符串
+     * 无匹配默认返回""
+     */
+    public static String ConvertEnumChargeItemLevelToString(ChargeItemLevel chargeItemLevel) {
+        switch (chargeItemLevel) {
+            case ClassA:
+                return "甲类";
+            case ClassB:
+                return "乙类";
+            case ClassC:
+                return "丙类";
+        }
+        return "";
+    }
+
+    /**
+     * 字符串转枚举类{@link HospitalLevel}
+     * 无匹配默认返回社丙类
+     */
+    public static ChargeItemLevel ConvertStringToEnumChargeItemLevel(String hospitalLevel) {
+        switch (hospitalLevel) {
+            case "甲类":
+                return ChargeItemLevel.ClassA;
+            case "乙类":
+                return ChargeItemLevel.ClassB;
+            case "丙类":
+                return ChargeItemLevel.ClassC;
+        }
+        return ChargeItemLevel.ClassC;
+    }
 }
+

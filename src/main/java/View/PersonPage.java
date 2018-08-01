@@ -1,10 +1,9 @@
 package View;
 
-import Controller.PersonManager;
-import Controller.PreSettleResultManager;
-import Controller.ReimburseService;
+import Controller.*;
 import Model.Person;
 import Model.PreSettleResult;
+import Model.SettleResult;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.cells.editors.TextFieldEditorBuilder;
 import com.jfoenix.controls.cells.editors.base.GenericEditableTreeTableCell;
@@ -178,10 +177,12 @@ public class PersonPage implements Initializable {
 
     public void AddNew() {
         mapped.add(new PersonData("Id", "姓名", "身份证", "证件编号", "男", null, (String) null));
+        editableTreeTableView.setCurrentItemsCount(editableTreeTableView.getCurrentItemsCount() + 1);
     }
 
     public void Delete() {
         this.mapped.remove(selected);
+        editableTreeTableView.setCurrentItemsCount(editableTreeTableView.getCurrentItemsCount() - 1);
     }
 
     public void ShowPersonnelVisits() throws IOException {
@@ -202,6 +203,7 @@ public class PersonPage implements Initializable {
         if (selected == null) return;
         PreSettleResult preSettleResult = ReimburseService.preSettle(selected.Id.get());
         List<PreSettleResult> preSettleResults = new PreSettleResultManager().getFromFile();
+        if (preSettleResult == null) return;
         preSettleResults.add(preSettleResult);
         new PreSettleResultManager().writeToFile((ArrayList<PreSettleResult>) preSettleResults);
         String show = "用户Id:" + preSettleResult.getId() + "\n"
@@ -224,16 +226,32 @@ public class PersonPage implements Initializable {
         confirmButton.getStyleClass().add("dialog-accept");
         confirmButton.setOnAction(event -> {
             alert.hideWithAnimation();
-//            try {
-//                editableTreeTableView.getScene().setRoot(FXMLLoader.load(getClass().getResource("/fxml/main.fxml")));
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
+            try {
+                SettleResult settleResult = ReimburseService.Settle(selected.Id.get());
+                ArrayList<SettleResult> settleResultArrayList = (ArrayList<SettleResult>) new SettleResultManager().getFromFile();
+                settleResultArrayList.add(settleResult);
+                new SettleResultManager().writeToFile(settleResultArrayList);
+                new Tools().printSettleResultToExcel(selected.Id.get());
+                JFXAlert alert2 = new JFXAlert((Stage) editableTreeTableView.getScene().getWindow());
+                alert2.initModality(Modality.APPLICATION_MODAL);
+                alert2.setOverlayClose(false);
+                JFXDialogLayout layout2 = new JFXDialogLayout();
+                layout2.setHeading(new Label("结算结果"));
+                layout2.setBody(new Label("文件地址" + Class.class.getClass().getResource("/").toURI().getPath().replaceFirst("/", "") + "/报销结算打印单" + selected.Id.get() + ".xls"));
+                JFXButton confirmButton2 = new JFXButton("确定");
+                confirmButton2.getStyleClass().add("dialog-accept");
+                confirmButton2.setOnAction(event2 -> alert2.hideWithAnimation());
+                layout2.setActions(confirmButton2);
+                alert2.setContent(layout2);
+                alert2.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
         JFXButton closeButton = new JFXButton("取消");
         closeButton.getStyleClass().add("dialog-cancel");
         closeButton.setOnAction(event -> alert.hideWithAnimation());
-        layout.setActions(confirmButton,closeButton);
+        layout.setActions(confirmButton, closeButton);
         alert.setContent(layout);
         alert.show();
     }

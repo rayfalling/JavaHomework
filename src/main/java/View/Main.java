@@ -132,4 +132,99 @@ public class Main implements Initializable {
         stage.show();
         primaryStage.hide();
     }
+
+    /**
+     * 报销结算
+     * 由于窗口大小问题
+     * 暂时弃用
+     */
+//    public void Reimburese() {
+//        JFXComboBox<Label> jfxCombo = new JFXComboBox<>();
+//        new PersonManager().getFromFile().forEach((item) -> jfxCombo.getItems().add(new Label(item.getId())));
+//        jfxCombo.setPromptText("选择结算Id");
+//        JFXAlert alert = new JFXAlert((Stage) personManager.getScene().getWindow());
+//        alert.initModality(Modality.APPLICATION_MODAL);
+//        alert.setOverlayClose(false);
+//        JFXDialogLayout layout = new JFXDialogLayout();
+//        layout.setHeading(new Label("预结算"));
+//        layout.setBody(jfxCombo);
+//        JFXButton confirmButton = new JFXButton("确定");
+//        confirmButton.getStyleClass().add("dialog-accept");
+//        confirmButton.setOnAction(event -> {
+//            alert.hideWithAnimation();
+//            if (jfxCombo.getValue().getText() == null || jfxCombo.getValue().getText().equals("") || jfxCombo.getValue().getText().equals("选择结算Id"))
+//                return;
+//            PreSettleResult preSettleResult = ReimburseService.preSettle(jfxCombo.getValue().getText());
+//            List<PreSettleResult> preSettleResults = new PreSettleResultManager().getFromFile();
+//            if (preSettleResult == null) return;
+//            preSettleResults.remove(preSettleResult);
+//            new PreSettleResultManager().writeToFile((ArrayList<PreSettleResult>) preSettleResults);
+//            String show = "用户Id:" + Objects.requireNonNull(preSettleResult).getId() + "\n"
+//                    + "门诊号" + preSettleResult.getClinicNumber() + "\n"
+//                    + "费用总额" + preSettleResult.getTotalExpenses() + "\n"
+//                    + "报销金额" + preSettleResult.getReimbursementAmount() + "\n"
+//                    + "自费金额" + preSettleResult.getSelfFundedAmount() + "\n"
+//                    + "起付标准" + preSettleResult.getStartStandardAmount() + "\n"
+//                    + "第一段自费" + preSettleResult.getFirstRangeAmount() + "\n"
+//                    + "第二段自费" + preSettleResult.getSecondRangeAmount() + "\n"
+//                    + "第三段自费" + preSettleResult.getThirdRangeAmount() + "\n"
+//                    + "年度总计报销" + preSettleResult.getYearTotalReimbursementAmount();
+//            JFXAlert alert1 = new JFXAlert((Stage) personManager.getScene().getWindow());
+//            alert1.initModality(Modality.APPLICATION_MODAL);
+//            alert1.setOverlayClose(false);
+//            JFXDialogLayout layout1 = new JFXDialogLayout();
+//            layout1.setHeading(new Label("预结算结果"));
+//            layout1.setBody(new Label(show));
+//            JFXButton confirmButton1 = new JFXButton("确定");
+//            confirmButton1.getStyleClass().add("dialog-accept");
+//            confirmButton1.setOnAction(event1 -> {
+//                alert1.hideWithAnimation();
+//                try {
+//                    SettleResult settleResult = ReimburseService.Settle(jfxCombo.getValue().getText());
+//                    ArrayList<SettleResult> settleResultArrayList = (ArrayList<SettleResult>) new SettleResultManager().getFromFile();
+//                    settleResultArrayList.add(settleResult);
+//                    new SettleResultManager().writeToFile(settleResultArrayList);
+//                    new Tools().printSettleResultToExcel(jfxCombo.getValue().getText());
+//                    JFXAlert alert2 = new JFXAlert((Stage) personManager.getScene().getWindow());
+//                    alert2.initModality(Modality.APPLICATION_MODAL);
+//                    alert2.setOverlayClose(false);
+//                    JFXDialogLayout layout2 = new JFXDialogLayout();
+//                    layout2.setHeading(new Label("结算结果"));
+//                    layout2.setBody(new Label("文件地址" + Class.class.getClass().getResource("/").toURI().getPath().replaceFirst("/", "") + "/报销结算打印单" + jfxCombo.getValue().getText()+ ".xls"));
+//                    JFXButton confirmButton2 = new JFXButton("确定");
+//                    confirmButton2.getStyleClass().add("dialog-accept");
+//                    confirmButton2.setOnAction(event2 -> alert2.hideWithAnimation());
+//                    layout2.setActions(confirmButton2);
+//                    alert2.setContent(layout2);
+//                    alert2.show();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            });
+//            JFXButton closeButton = new JFXButton("取消");
+//            closeButton.getStyleClass().add("dialog-cancel");
+//            closeButton.setOnAction(event1 -> alert1.hideWithAnimation());
+//            layout1.setActions(confirmButton1, closeButton);
+//            alert1.setContent(layout1);
+//            alert1.show();
+//        });
+//        JFXButton closeButton = new JFXButton("取消");
+//        closeButton.getStyleClass().add("dialog-cancel");
+//        closeButton.setOnAction(event -> alert.hideWithAnimation());
+//        layout.setActions(confirmButton, closeButton);
+//        alert.setContent(layout);
+//        alert.show();
+//    }
+    public void NavToHospital() throws IOException {
+        Stage stage = new Stage();
+        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/Hospital.fxml")));
+        stage.setScene(scene);
+        stage.show();
+        stage.setOnCloseRequest(NavBack());
+        personManager.getScene().getWindow().hide();
+    }
+
+    public void Exit() {
+        personManager.getScene().getWindow().hide();
+    }
 }

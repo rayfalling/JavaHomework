@@ -4,10 +4,24 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Main">
-    <JFXButton id="personManager" fx:id="personManager" buttonType="RAISED" layoutX="40.0" layoutY="10.0" mnemonicParsing="false" onAction="#NavToPersonPage" style="-fx-font-size:14px;-fx-background-color:WHITE;" text="人员信息管理" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="240.0" AnchorPane.topAnchor="20.0" />
-    <JFXButton id="medicineInfoManager" fx:id="medicineInfoManager" buttonType="RAISED" layoutX="191.0" layoutY="60.0" mnemonicParsing="false" onAction="#NavToMedicinePage" style="-fx-font-size:14px;-fx-background-color:WHITE;" text="药品信息管理" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="20.0" />
-    <JFXButton buttonType="RAISED" layoutX="40.0" layoutY="45.0" mnemonicParsing="false" onAction="#NavToPersonnelVisit" style="-fx-font-size:14px;-fx-background-color:WHITE;" text="就诊信息管理" AnchorPane.bottomAnchor="135.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="240.0" AnchorPane.topAnchor="135.0" />
-    <JFXButton buttonType="RAISED" layoutX="160.0" layoutY="45.0" mnemonicParsing="false" onAction="#NavToPrescription" style="-fx-font-size:14px;-fx-background-color:WHITE;" text="处方明细维护" AnchorPane.bottomAnchor="135.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="135.0" />
-    <JFXButton buttonType="RAISED" layoutX="39.0" layoutY="60.0" mnemonicParsing="false" style="-fx-font-size:14px;-fx-background-color:WHITE;" text="Button" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="240.0" />
-    <JFXButton buttonType="RAISED" layoutX="191.0" layoutY="104.0" mnemonicParsing="false" style="-fx-font-size:14px;-fx-background-color:WHITE;" text="Button" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="40.0" />
+    <JFXButton id="personManager" fx:id="personManager" buttonType="RAISED" layoutX="40.0" layoutY="10.0"
+               mnemonicParsing="false" onAction="#NavToPersonPage"
+               style="-fx-font-size:14px;-fx-background-color:WHITE;" text="人员信息管理" AnchorPane.leftAnchor="40.0"
+               AnchorPane.rightAnchor="240.0" AnchorPane.topAnchor="20.0"/>
+    <JFXButton id="medicineInfoManager" fx:id="medicineInfoManager" buttonType="RAISED" layoutX="191.0" layoutY="60.0"
+               mnemonicParsing="false" onAction="#NavToMedicinePage"
+               style="-fx-font-size:14px;-fx-background-color:WHITE;" text="药品信息管理" AnchorPane.leftAnchor="240.0"
+               AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="20.0"/>
+    <JFXButton buttonType="RAISED" layoutX="40.0" layoutY="45.0" mnemonicParsing="false" onAction="#NavToPersonnelVisit"
+               style="-fx-font-size:14px;-fx-background-color:WHITE;" text="就诊信息管理" AnchorPane.bottomAnchor="135.0"
+               AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="240.0" AnchorPane.topAnchor="135.0"/>
+    <JFXButton buttonType="RAISED" layoutX="160.0" layoutY="45.0" mnemonicParsing="false" onAction="#NavToPrescription"
+               style="-fx-font-size:14px;-fx-background-color:WHITE;" text="处方明细维护" AnchorPane.bottomAnchor="135.0"
+               AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="135.0"/>
+    <JFXButton buttonType="RAISED" layoutX="39.0" layoutY="60.0" mnemonicParsing="false"
+               style="-fx-font-size:14px;-fx-background-color:WHITE;" text="医院信息管理" AnchorPane.bottomAnchor="20.0"
+               AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="240.0" onAction="#NavToHospital"/>
+    <JFXButton buttonType="RAISED" layoutX="191.0" layoutY="104.0" mnemonicParsing="false"
+               style="-fx-font-size:14px;-fx-background-color:WHITE;" text="退出" AnchorPane.bottomAnchor="20.0"
+               AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="40.0" onAction="#Exit"/>
 </AnchorPane>

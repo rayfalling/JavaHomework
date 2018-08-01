@@ -46,6 +46,8 @@ public class PrescriptionPage implements Initializable {
     @FXML
     public JFXTreeTableColumn<PrescriptionData, String> code;
     @FXML
+    public JFXTreeTableColumn<PrescriptionData, String> hospitalCode;
+    @FXML
     public JFXTreeTableColumn<PrescriptionData, Number> itemPrice;
     @FXML
     public JFXTreeTableColumn<PrescriptionData, Number> count;
@@ -68,9 +70,8 @@ public class PrescriptionPage implements Initializable {
         mapped = FXCollections.observableArrayList();
         ArrayList<Prescription> prescriptionArrayList = (ArrayList<Prescription>) new PrescriptionManager().getFromFile();
         for (Prescription p : prescriptionArrayList) {
-            mapped.add(new PrescriptionData(p.getId(), p.getClinicNumber(), p.getCode(),
-                    p.getItemPrice(), p.getCount(),
-                    p.getTotalPrice()));
+            mapped.add(new PrescriptionData(p.getId(), p.getClinicNumber(), p.getCode(), p.getHospitalCode(),
+                    p.getItemPrice(), p.getCount(), p.getTotalPrice()));
         }
         setupEditableTableView();
         editableTreeTableView.getSelectionModel().selectedItemProperty().addListener(
@@ -99,6 +100,13 @@ public class PrescriptionPage implements Initializable {
         code.setOnEditCommit((TreeTableColumn.CellEditEvent<PrescriptionData, String> t) -> t.getTreeTableView()
                 .getTreeItem(t.getTreeTablePosition().getRow())
                 .getValue().code.setValue(t.getNewValue()));
+
+        hospitalCode.setCellValueFactory(param -> param.getValue().getValue().hospitalCode);
+        hospitalCode.setCellFactory((TreeTableColumn<PrescriptionData, String> param) -> new GenericEditableTreeTableCell<>(
+                new TextFieldEditorBuilder()));
+        hospitalCode.setOnEditCommit((TreeTableColumn.CellEditEvent<PrescriptionData, String> t) -> t.getTreeTableView()
+                .getTreeItem(t.getTreeTablePosition().getRow())
+                .getValue().hospitalCode.setValue(t.getNewValue()));
 
         itemPrice.setCellValueFactory(param -> param.getValue().getValue().itemPrice);
         itemPrice.setCellFactory((TreeTableColumn<PrescriptionData, Number> param) -> new GenericEditableTreeTableCell<>(
@@ -162,7 +170,7 @@ public class PrescriptionPage implements Initializable {
         try {
             ArrayList<Prescription> prescriptionArrayList = new ArrayList<>();
             mapped.forEach((item) -> prescriptionArrayList.add(
-                    new Prescription(item.Id.get(), item.clinicNumber.get(), item.code.get(),
+                    new Prescription(item.Id.get(), item.clinicNumber.get(), item.code.get(), item.hospitalCode.get(),
                             item.itemPrice.get(), item.count.get(), item.totalPrice.get())
             ));
             new PrescriptionManager().writeToFile(prescriptionArrayList);
@@ -179,11 +187,13 @@ public class PrescriptionPage implements Initializable {
     }
 
     public void AddNew() {
-        mapped.add(new PrescriptionData("Id", "门诊号", "药品编号", 0.0, 0.0, 0.0));
+        mapped.add(new PrescriptionData("Id", "门诊号", "药品编号", "医院编号", 0.0, 0.0, 0.0));
+        editableTreeTableView.setCurrentItemsCount(editableTreeTableView.getCurrentItemsCount() + 1);
     }
 
     public void Delete() {
         this.mapped.remove(selected);
+        editableTreeTableView.setCurrentItemsCount(editableTreeTableView.getCurrentItemsCount() - 1);
     }
 
     /**
@@ -194,14 +204,16 @@ public class PrescriptionPage implements Initializable {
         StringProperty Id;
         StringProperty clinicNumber;
         StringProperty code;
+        StringProperty hospitalCode;
         DoubleProperty itemPrice;
         DoubleProperty count;
         DoubleProperty totalPrice;
 
-        PrescriptionData(String Id, String clinicNumber, String code, double itemPrice, double count, double totalPrice) {
+        PrescriptionData(String Id, String clinicNumber, String code, String hospitalCode, double itemPrice, double count, double totalPrice) {
             this.Id = new SimpleStringProperty(Id);
             this.clinicNumber = new SimpleStringProperty(clinicNumber);
             this.code = new SimpleStringProperty(code);
+            this.hospitalCode = new SimpleStringProperty(hospitalCode);
             this.itemPrice = new SimpleDoubleProperty(itemPrice);
             this.count = new SimpleDoubleProperty(count);
             this.totalPrice = new SimpleDoubleProperty(totalPrice);

@@ -28,8 +28,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static Controller.Tools.*;
 import static View.Main.showDialog;
-import static View.MedicinePage.MedicineInfoData.*;
 
 @SuppressWarnings("ALL")
 public class MedicinePage implements Initializable {
@@ -168,10 +168,12 @@ public class MedicinePage implements Initializable {
 
     public void AddNew() {
         mapped.add(new MedicineInfoData("Id", "药品名称", 10.0, "ug/支", ChargeItemLevel.ClassA, HospitalLevel.OneClass));
+        editableTreeTableView.setCurrentItemsCount(editableTreeTableView.getCurrentItemsCount() + 1);
     }
 
     public void Delete() {
         this.mapped.remove(selected);
+        editableTreeTableView.setCurrentItemsCount(editableTreeTableView.getCurrentItemsCount() - 1);
     }
 
     /**
@@ -202,74 +204,6 @@ public class MedicinePage implements Initializable {
             this.drugDosageUnit = new SimpleStringProperty(drugDosageUnit);
             this.chargeItemLevel = new SimpleStringProperty(s);
             this.hospitalLevel = new SimpleStringProperty(s1);
-        }
-
-        /**
-         * 枚举类{@link HospitalLevel}转字符串
-         * 无匹配默认返回""
-         */
-        static String ConvertEnumHospitalLevelToString(HospitalLevel hospitalLevel) {
-            switch (hospitalLevel) {
-                case OneClass:
-                    return "一类";
-                case SecondClass:
-                    return "二类";
-                case ThirdClass:
-                    return "三类";
-                case Community:
-                    return "社区";
-            }
-            return "";
-        }
-
-        /**
-         * 字符串转枚举类{@link HospitalLevel}
-         * 无匹配默认返回社区级别
-         */
-        static HospitalLevel ConvertStringToEnumHospitalLevel(String hospitalLevel) {
-            switch (hospitalLevel) {
-                case "一类":
-                    return HospitalLevel.OneClass;
-                case "二类":
-                    return HospitalLevel.SecondClass;
-                case "三类":
-                    return HospitalLevel.ThirdClass;
-                case "社区":
-                    return HospitalLevel.Community;
-            }
-            return HospitalLevel.Community;
-        }
-
-        /**
-         * 枚举类{@link ChargeItemLevel}转字符串
-         * 无匹配默认返回""
-         */
-        static String ConvertEnumChargeItemLevelToString(ChargeItemLevel chargeItemLevel) {
-            switch (chargeItemLevel) {
-                case ClassA:
-                    return "甲类";
-                case ClassB:
-                    return "乙类";
-                case ClassC:
-                    return "丙类";
-            }
-            return "";
-        }
-
-        /**
-         * 字符串转枚举类{@link HospitalLevel}
-         * 无匹配默认返回社丙类
-         */
-        static ChargeItemLevel ConvertStringToEnumChargeItemLevel(String hospitalLevel) {
-            switch (hospitalLevel) {
-                case "甲类":
-                    return ChargeItemLevel.ClassA;
-                case "乙类":
-                    return ChargeItemLevel.ClassB;
-                case "丙类":
-                    return ChargeItemLevel.ClassC;
-            }
-            return ChargeItemLevel.ClassC;
         }
     }
 }

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="View.PrescriptionPage">
+            fx:controller="View.HospitalPage">
     <HBox alignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <JFXRippler fx:id="back" maskType="CIRCLE" onMouseClicked="#BackToMain" position="BACK"
                     styleClass="icons-rippler" HBox.hgrow="NEVER">
@@ -43,14 +43,9 @@
                       AnchorPane.leftAnchor="0.0"
                       AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
         <columns>
-            <JFXTreeTableColumn fx:id="Id" minWidth="-Infinity" text="Id" style="-fx-alignment: center"/>
-            <JFXTreeTableColumn fx:id="clinicNumber" minWidth="-Infinity" text="门诊号" style="-fx-alignment: center"/>
-            <JFXTreeTableColumn fx:id="code" minWidth="-Infinity" text="药品编号" style="-fx-alignment: center"/>
-            <JFXTreeTableColumn fx:id="hospitalCode" minWidth="-Infinity" text="医院代码" style="-fx-alignment: center"/>
-            <JFXTreeTableColumn fx:id="itemPrice" minWidth="-Infinity" text="单价" style="-fx-alignment: center"/>
-            <JFXTreeTableColumn fx:id="count" minWidth="-Infinity" text="数量" style="-fx-alignment: center"/>
-            <JFXTreeTableColumn fx:id="totalPrice" editable="false" minWidth="-Infinity" text="总金额"
-                                style="-fx-alignment: center"/>
+            <JFXTreeTableColumn fx:id="code" minWidth="-Infinity" text="医院编号" style="-fx-alignment: center"/>
+            <JFXTreeTableColumn fx:id="name" minWidth="-Infinity" text="医院名称" style="-fx-alignment: center"/>
+            <JFXTreeTableColumn fx:id="level" minWidth="-Infinity" text="医院等级" style="-fx-alignment: center"/>
         </columns>
         <contextMenu>
             <ContextMenu>

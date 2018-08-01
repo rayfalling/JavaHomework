@@ -1,9 +1,11 @@
 package Model;
+
 /**
  * 处方信息类
+ *
  * @author wanghaiwei
  * @version 1.0
- * */
+ */
 public class Prescription extends Model {
     /**
      * 索引
@@ -18,6 +20,10 @@ public class Prescription extends Model {
      */
     private String code;
     /**
+     * 医院代码
+     */
+    private String hospitalCode;
+    /**
      * 单价
      */
     private double itemPrice;
@@ -31,10 +37,11 @@ public class Prescription extends Model {
      */
     private double totalPrice;
 
-    public Prescription(String id, String clinicNumber, String code, double itemPrice, double count, double totalPrice) {
+    public Prescription(String id, String clinicNumber, String code, String hospitalCode, double itemPrice, double count, double totalPrice) {
         Id = id;
         this.clinicNumber = clinicNumber;
         this.code = code;
+        this.hospitalCode = hospitalCode;
         this.itemPrice = itemPrice;
         this.count = count;
         this.totalPrice = totalPrice;
@@ -91,5 +98,13 @@ public class Prescription extends Model {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getHospitalCode() {
+        return hospitalCode;
+    }
+
+    public void setHospitalCode(String hospitalCode) {
+        this.hospitalCode = hospitalCode;
     }
 }

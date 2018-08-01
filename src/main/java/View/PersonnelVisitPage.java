@@ -27,8 +27,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static Controller.Tools.ConvertEnumHospitalLevelToString;
+import static Controller.Tools.ConvertStringToEnumHospitalLevel;
 import static View.Main.showDialog;
-import static View.PersonnelVisitPage.PersonnelVisitData.ConvertStringToEnumHospitalLevel;
 
 @SuppressWarnings("ALL")
 public class PersonnelVisitPage implements Initializable {
@@ -194,10 +195,12 @@ public class PersonnelVisitPage implements Initializable {
 
     public void AddNew() {
         mapped.add(new PersonnelVisitData("Id", "门诊号", "医疗类别", LocalDate.now(), LocalDate.now(), "医院代码", HospitalLevel.OneClass, "出院原因"));
+        editableTreeTableView.setCurrentItemsCount(editableTreeTableView.getCurrentItemsCount() + 1);
     }
 
     public void Delete() {
         this.mapped.remove(selected);
+        editableTreeTableView.setCurrentItemsCount(editableTreeTableView.getCurrentItemsCount() - 1);
     }
 
     public void DoFilter(String filter) {
@@ -244,42 +247,5 @@ public class PersonnelVisitPage implements Initializable {
             this.hospitalLevel = new SimpleStringProperty(ConvertEnumHospitalLevelToString(hospitalLevel));
             this.leaveReason = new SimpleStringProperty(leaveReason);
         }
-
-        /**
-         * 枚举类{@link HospitalLevel}转字符串
-         * 无匹配默认返回""
-         */
-        static String ConvertEnumHospitalLevelToString(HospitalLevel hospitalLevel) {
-            switch (hospitalLevel) {
-                case OneClass:
-                    return "一类";
-                case SecondClass:
-                    return "二类";
-                case ThirdClass:
-                    return "三类";
-                case Community:
-                    return "社区";
-            }
-            return "";
-        }
-
-        /**
-         * 字符串转枚举类{@link HospitalLevel}
-         * 无匹配默认返回社区级别
-         */
-        static HospitalLevel ConvertStringToEnumHospitalLevel(String hospitalLevel) {
-            switch (hospitalLevel) {
-                case "一类":
-                    return HospitalLevel.OneClass;
-                case "二类":
-                    return HospitalLevel.SecondClass;
-                case "三类":
-                    return HospitalLevel.ThirdClass;
-                case "社区":
-                    return HospitalLevel.Community;
-            }
-            return HospitalLevel.Community;
-        }
     }
-
 }

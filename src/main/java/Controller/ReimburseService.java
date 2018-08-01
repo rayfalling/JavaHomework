@@ -85,7 +85,6 @@ public class ReimburseService {
         double totalHalfReimburseValue = 0;
         //遍历一次报销的所有明细
         for (Prescription p : list) {
-            //如果是药品，按药品算
             MedicineInfo m = new MedicineInfoManager().getFromFile().stream().filter((medicineInfo) -> medicineInfo.getDrugCode().equals(p.getCode())).findFirst().get();
             //返回为0，则为自费
             double v = calculateMedical(p, m);
@@ -136,6 +135,8 @@ public class ReimburseService {
         if (p.getItemPrice() > m.getPriceLimit()) {
             reimburseValue = m.getPriceLimit() * p.getCount();
         }
+        if (new HospitalManager().getFromFile().stream().filter(h -> h.getCode().equals(p.getHospitalCode())).findFirst().get().getLevel().compareTo(m.getHospitalLevel()) > 0)
+            return 0;
         if (m.getChargeItemLevel() == ChargeItemLevel.ClassB) {
             return reimburseValue / 2;
         } else if (m.getChargeItemLevel() == ChargeItemLevel.ClassC) {
